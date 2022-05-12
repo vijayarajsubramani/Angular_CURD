@@ -1,0 +1,14 @@
+<div class="container mt-3">
+  <h2>Todo Form</h2>
+  <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3 mt-3">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" placeholder="Enter Name" formControlName="name">  
+    </div>
+    <div class="mb-3">
+      <label for="role">Job Role:</label>
+      <input type="text" class="form-control" placeholder="Enter Role" formControlName="jobRole">
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+  </form>
+</div>
