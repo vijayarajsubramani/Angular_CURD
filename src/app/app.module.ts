@@ -13,6 +13,8 @@ import { EditComponent } from './Components/edit/edit.component';
 import { RegisterComponent } from './Components/register/register.component';
 import { SigninComponent } from './Components/signin/signin.component';
 import { HeaderComponent } from './Components/header/header.component';
+import { authInterceptorProviders } from './Service/interceptor';
+import { AuthGuardService } from './Service/authguard';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,7 @@ import { HeaderComponent } from './Components/header/header.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [authInterceptorProviders,AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
