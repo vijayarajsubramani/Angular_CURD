@@ -1,43 +1,50 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import {
-    HttpClient,
-    HttpHeaders,
-    HttpErrorResponse,
-  } from '@angular/common/http';
-
-  @Injectable({
-    providedIn: 'root',
-  })
-
-  export class Apiservice{
-      baseurl:string='http://localhost:8000/api';
-
-      constructor(private http:HttpClient){
-
-      }
-      createTodo(data:any):Observable<any>{
-          let url=`${this.baseurl}/addEditTodo`;
-          return this.http.post(url,data).pipe()
-      }
-      listTodo(){
-        let url=`${this.baseurl}/getalltodo`;
-        return this.http.get(url).pipe()
-
-      }
-      getSingleTodo(id:any){
-        let url=`${this.baseurl}/getsingleTodo`;
-        return this.http.post(url,id).pipe()
-
-      }
-      deletetodo(id:any){
-        let url=`${this.baseurl}/deletetodo`;
-        return this.http.post(url,id).pipe()
+import { map } from 'rxjs/operators';
+import { Api_Services} from './api.services';
 
 
-        
+@Injectable({
+  providedIn: 'root',
+})
 
-      }
+export class ApiService{
+  constructor(private _api:Api_Services){
   }
-  
+  register(payload:any){
+    return this._api.postTypeRequest('/adminregister',{
+      username:payload.username,
+      email:payload.email,
+      password:payload.password,
+      confirm_password:payload.confirm_password
+    }).pipe(
+      map(res=>{
+        return res
+      })
+    )
+  }
+  login(payload:any){
+    return this._api.postTypeRequest('/adminlogin/login',{
+      email:payload.username,
+      password:payload.password
+    }).pipe(
+      map((res:any)=>{
+        return res
+      })
+    )
+  }
+
+  createproduct(payload:any){
+    return this._api.postTypeRequest('/addproduct',{
+      name:payload.name,
+      price:payload.price,
+      quantity:payload.quantity,
+      description:payload.description,
+      image:payload.image
+    }).pipe(
+      map((res)=>{
+        return res
+      })
+    )
+
+  }
+}

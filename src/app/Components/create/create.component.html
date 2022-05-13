@@ -1,14 +1,97 @@
-<div class="container mt-3">
-  <h2>Todo Form</h2>
-  <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
-    <div class="mb-3 mt-3">
-      <label for="name">Name:</label>
-      <input type="text" class="form-control" placeholder="Enter Name" formControlName="name">  
+<section class="vh-100" >
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-xl-9">
+
+        <h1 class="text-block mb-4" >Create Product</h1>
+        <form [formGroup]="addproductForm" (ngSubmit)="onSubmit()">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body">
+  
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Product Name</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="text" class="form-control form-control-lg" formControlName="name"/>
+  
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+  
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Price</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="number" class="form-control form-control-lg" formControlName="price" />
+  
+                </div>
+              </div>
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Quantity</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="number" class="form-control form-control-lg" formControlName="quantity" />
+  
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+  
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Description</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <textarea class="form-control" rows="3" placeholder="Description the product" formControlName="description"></textarea>
+  
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+  
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Upload CV</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input class="form-control form-control-lg" id="formFileLg" type="file" formControlName="image"/>
+                  <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
+                    size 50 MB</div>
+  
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+  
+              <div class="px-5 py-4">
+                <button type="submit" class="btn btn-primary btn-lg">Create</button>
+              </div>
+  
+            </div>
+          </div>
+        </form>
+       
+
+      </div>
     </div>
-    <div class="mb-3">
-      <label for="role">Job Role:</label>
-      <input type="text" class="form-control" placeholder="Enter Role" formControlName="jobRole">
-    </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-  </form>
-</div>
+  </div>
+</section>

@@ -1,7 +1,8 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, NgZone } from '@angular/core';
-import { Apiservice } from 'src/app/Service/api';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ApiService } from 'src/app/Service/api';
+import { TokenStorageService } from 'src/app/Service/token';
 
 @Component({
   selector: 'app-create',
@@ -10,44 +11,54 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class CreateComponent implements OnInit {
   submitted = false;
-  todoForm!: FormGroup;
+  addproductForm!: FormGroup;
+  product=[]
 
   constructor(
     public fb: FormBuilder,
     private ngZone: NgZone,
-    private router: Router,
-    private apiService: Apiservice
+    private _router: Router,
+    private _api: ApiService,
+    private _token:TokenStorageService
+
+
   ) {
     this.mainform();
   }
 
   ngOnInit(): void { }
   mainform() {
-    this.todoForm = this.fb.group({
+    this.addproductForm = this.fb.group({
       name: ['', [Validators.required]],
-      jobRole: ['', [Validators.required]]
+      price: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      quantity: ['', [Validators.required]],
+      image: ['', [Validators.required]]
     })
   }
   get myform() {
-    return this.todoForm?.controls;
+    return this.addproductForm?.controls
   }
   onSubmit() {
     this.submitted = true;
-    if (!this.todoForm?.valid) {
-      console.log("check")
-      return false
+    if (!this.addproductForm.valid) {
+      alert('Register Must all fied Required')
+      return false;
     } else {
-      return this.apiService.createTodo(this.todoForm.value).subscribe({
-        complete: () => {
-          console.log('todo created successfully')
-          this.ngZone.run(() => this.router.navigateByUrl('/lists'))
-        },
-        error: (e) => {
-          console.log('error', e)
-        }
+      console.log('check else')
+      return this._api.createproduct(this.addproductForm.value).subscribe({
+        next: (res:any) => {
+          if(res.status===1){
+            res.response.data=this.product;
+            this.ngZone.run(() => this._router.navigateByUrl('/add'))
+          }else{
+            console.log('error')
+          }
+        }, 
       })
     }
 
   }
+
 
 }
