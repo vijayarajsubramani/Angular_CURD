@@ -34,6 +34,7 @@ export class ApiService{
   }
 
   createproduct(payload:any){
+    console.log('payload------>',payload)
     return this._api.postTypeRequest('/addproduct',{
       name:payload.name,
       price:payload.price,
@@ -45,6 +46,24 @@ export class ApiService{
         return res
       })
     )
+  }
 
+  getallproduct(payload:any){
+    console.log('payload------>',payload)
+    return this._api.postTypeRequest('/getalltodo',{
+      skip:payload.skip,
+      limit:payload.limit,
+      search:payload.search,
+      from_date:payload.from_date,
+      to_date:payload.to_date,
+      order:payload.order,
+      filter:payload.filter,
+      status:payload.status,
+      field:payload.field
+    }).pipe(
+      map(res=>{
+        return res
+      })
+    )
   }
 }

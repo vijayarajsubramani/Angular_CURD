@@ -2,7 +2,6 @@ import { Router } from '@angular/router';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/Service/api';
-import { TokenStorageService } from 'src/app/Service/token';
 
 @Component({
   selector: 'app-create',
@@ -11,17 +10,16 @@ import { TokenStorageService } from 'src/app/Service/token';
 })
 export class CreateComponent implements OnInit {
   submitted = false;
-  addproductForm!: FormGroup;
-  product=[]
+  addproductForm!:FormGroup;
+  product=[];
+  imagefile='';
+  preview='';
 
   constructor(
     public fb: FormBuilder,
     private ngZone: NgZone,
     private _router: Router,
     private _api: ApiService,
-    private _token:TokenStorageService
-
-
   ) {
     this.mainform();
   }
@@ -39,18 +37,43 @@ export class CreateComponent implements OnInit {
   get myform() {
     return this.addproductForm?.controls
   }
+  onSelectedFile(e:any){
+    if(e.target.files.length>0){
+      const file=e.target.files[0];
+      console.log('files',file)
+      let imagevalid=['image/jpg', 'image/jpeg', 'image/png', 'image/JPG', 'image/JPEG', 'image/PNG'];
+      if(imagevalid.indexOf(file.type)==-1){
+        this.addproductForm.controls['image'].setValue('')
+        return
+      }
+      this.imagefile=file
+      const reader=new FileReader();
+      reader.onload=()=>{
+          this.preview=reader.result as string
+      }
+      reader.readAsDataURL(file)
+
+    }
+
+  }
   onSubmit() {
     this.submitted = true;
     if (!this.addproductForm.valid) {
-      alert('Register Must all fied Required')
+      alert('product Must all fied Required')
       return false;
     } else {
-      console.log('check else')
-      return this._api.createproduct(this.addproductForm.value).subscribe({
+      const formData=new FormData();
+      formData.append('name',this.addproductForm?.get('name')?.value || "")
+      formData.append('description',this.addproductForm.get('description')?.value )
+      formData.append('price',this.addproductForm.get('price')?.value )
+      formData.append('image',this.imagefile )
+      formData.append('quantity',this.addproductForm.get('quantity')?.value )
+      console.log('formdata',formData)
+      return this._api.createproduct(formData).subscribe({
         next: (res:any) => {
           if(res.status===1){
             res.response.data=this.product;
-            this.ngZone.run(() => this._router.navigateByUrl('/add'))
+            this.ngZone.run(() => this._router.navigateByUrl('/lists'))
           }else{
             console.log('error')
           }

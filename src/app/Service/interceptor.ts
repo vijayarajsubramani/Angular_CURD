@@ -12,8 +12,6 @@ export class  MyInterceptor  implements HttpInterceptor{
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         req = req.clone({
           setHeaders: {
-            'Content-Type' : 'application/json; charset=utf-8',
-            'Accept'       : 'application/json',
             'Authorization': `Bearer ${this._token.getToken()}`,
           },
         });
