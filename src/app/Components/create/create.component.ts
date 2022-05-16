@@ -1,22 +1,24 @@
 import { Router } from '@angular/router';
-import { Component, OnInit, NgZone} from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import { FormGroup, FormBuilder, Validators,NgForm } from '@angular/forms';
 import { ApiService } from 'src/app/Service/api';
 
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.css']
+  styleUrls: ['./create.component.css'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class CreateComponent implements OnInit {
 
   submitted = false;
   addproductForm!:FormGroup;
   product=[];
-  imagefile='';
+  imagefile:any;
   preview='';
 
   constructor(
+    public ref:ChangeDetectorRef,
     public fb: FormBuilder,
     private ngZone: NgZone,
     private _router: Router,
@@ -63,15 +65,21 @@ export class CreateComponent implements OnInit {
       alert('product Must all fied Required')
       return false;
     } else {
-      let formData:any=new FormData();
-      formData.append('name',this.addproductForm.value.name)
-      formData.append('description',this.addproductForm.value.description )
-      formData.append('price',this.addproductForm.value.price)
-      formData.append('image',this.imagefile )
-      formData.append('quantity',this.addproductForm.value.quantity )
-
+      // let formData:any=new FormData();
+      // formData.append('name',this.addproductForm.value.name)
+      // formData.append('description',this.addproductForm.value.description )
+      // formData.append('price',this.addproductForm.value.price)
+      // formData.append('image',this.imagefile )
+      // formData.append('quantity',this.addproductForm.value.quantity )
+      let params:any={};
+      params.name=this.addproductForm.value.name
+      params.description=this.addproductForm.value.description;
+      params.price=this.addproductForm.value.price;
+      params.image=this.imagefile.name
+      params.quantity=this.addproductForm.value.quantity;
+      console.log('params',params)
       console.log("formdata----",this.imagefile)
-      return this._api.createproduct(formData).subscribe({
+      return this._api.createproduct(params).subscribe({
         next: (res:any) => {
           if(res.status===1){
             res.response.data=this.product;
@@ -79,8 +87,10 @@ export class CreateComponent implements OnInit {
           }else{
             console.log('error')
           }
-        }, 
-      })
+          this.ref.markForCheck();
+        },
+      }
+      )
     }
 
   }
