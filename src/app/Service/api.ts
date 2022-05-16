@@ -50,7 +50,7 @@ export class ApiService{
 
   getallproduct(payload:any){
     console.log('payload------>',payload)
-    return this._api.postTypeRequest('/getalltodo',{
+    return this._api.postTypeRequest('/getallproduct',{
       skip:payload.skip,
       limit:payload.limit,
       search:payload.search,

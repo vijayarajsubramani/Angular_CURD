@@ -17,7 +17,6 @@ import { map } from 'rxjs/operators';
                   return res
               }))
           )
-
       }
       postTypeRequest(url:string,payload:any){
           return this._http.post(`${this.baseurl}${url}`,payload).pipe(

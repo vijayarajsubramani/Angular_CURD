@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -30,7 +30,8 @@ import { AuthGuardService } from './Service/authguard';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [authInterceptorProviders,AuthGuardService],
   bootstrap: [AppComponent]

@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
-import { Component, OnInit, NgZone } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, NgZone} from '@angular/core';
+import { FormGroup, FormBuilder, Validators,NgForm } from '@angular/forms';
 import { ApiService } from 'src/app/Service/api';
 
 @Component({
@@ -9,6 +9,7 @@ import { ApiService } from 'src/app/Service/api';
   styleUrls: ['./create.component.css']
 })
 export class CreateComponent implements OnInit {
+
   submitted = false;
   addproductForm!:FormGroup;
   product=[];
@@ -31,7 +32,7 @@ export class CreateComponent implements OnInit {
       price: ['', [Validators.required]],
       description: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
-      image: ['', [Validators.required]]
+      image: [null]
     })
   }
   get myform() {
@@ -62,13 +63,14 @@ export class CreateComponent implements OnInit {
       alert('product Must all fied Required')
       return false;
     } else {
-      const formData=new FormData();
-      formData.append('name',this.addproductForm?.get('name')?.value || "")
-      formData.append('description',this.addproductForm.get('description')?.value )
-      formData.append('price',this.addproductForm.get('price')?.value )
+      let formData:any=new FormData();
+      formData.append('name',this.addproductForm.value.name)
+      formData.append('description',this.addproductForm.value.description )
+      formData.append('price',this.addproductForm.value.price)
       formData.append('image',this.imagefile )
-      formData.append('quantity',this.addproductForm.get('quantity')?.value )
-      console.log('formdata',formData)
+      formData.append('quantity',this.addproductForm.value.quantity )
+
+      console.log("formdata----",this.imagefile)
       return this._api.createproduct(formData).subscribe({
         next: (res:any) => {
           if(res.status===1){

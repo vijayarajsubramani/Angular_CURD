@@ -12,7 +12,7 @@ export class  MyInterceptor  implements HttpInterceptor{
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         req = req.clone({
           setHeaders: {
-            'Authorization': `Bearer ${this._token.getToken()}`,
+            'Authorization': `${this._token.getToken()}`,
           },
         });
         return next.handle(req);

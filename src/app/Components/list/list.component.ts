@@ -40,9 +40,11 @@ export class ListComponent implements OnInit {
   getallproductList(data:any): void {
     this._api.getallproduct(data).subscribe({
       next: (res: any) => {
-        console.log('res',res)
-       this.product=res.data
-
+        if(res.status===1){
+          this.product=res.response.result
+        }else{
+          alert("Some error")
+        }
       }
     })
 
