@@ -1,1 +1,1 @@
-<pagination [totalItems]="overallcount" [(ngModel)]="bigCurrentPage" [maxSize]="limit"></pagination>
+<pagination [totalItems]="overallcount" [(ngModel)]="page" [maxSize]="limit" (pageChanged)="pageChanged($event)"></pagination>

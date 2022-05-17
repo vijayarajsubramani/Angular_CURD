@@ -2,6 +2,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, NgZone, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/Service/api';
+const CheckValue = (e = "") => {
+  if (String(e).length > 0 && String(e) !== String(undefined) && String(e) !== String(null)) {
+      return true;
+  } else {
+      return false;
+  }
+};
 
 @Component({
   selector: 'app-create',
@@ -9,6 +16,7 @@ import { ApiService } from 'src/app/Service/api';
   styleUrls: ['./create.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class CreateComponent implements OnInit {
 
   submitted = false;

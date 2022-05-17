@@ -50,6 +50,7 @@ export class SigninComponent implements OnInit {
             if(res.status===1){
               this._token.setToken(res.response.auth_token);
               this.ngZone.run(() => this._router.navigateByUrl('/add'))
+              window.location.reload();
             }else{
               this.ngZone.run(() => this._router.navigateByUrl('/'))
             }

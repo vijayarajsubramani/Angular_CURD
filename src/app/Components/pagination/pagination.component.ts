@@ -1,4 +1,4 @@
-import { Component, OnInit ,Input} from '@angular/core';
+import { Component, OnInit ,Input,Output} from '@angular/core';
 
 @Component({
   selector: 'app-pagination',
@@ -8,11 +8,14 @@ import { Component, OnInit ,Input} from '@angular/core';
 export class PaginationComponent implements OnInit {
   @Input() overallcount:any;
   @Input() limit:any;
+  @Input() page:any;
+  @Input() pageChanged:any;
 
 
-  bigCurrentPage = 1;
+  
+  constructor() { 
 
-  constructor() { }
+  }
 
   ngOnInit(): void {
   }

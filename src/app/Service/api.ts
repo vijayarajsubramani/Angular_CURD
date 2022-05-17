@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Api_Services} from './api.services';
 @Injectable({
@@ -7,6 +8,8 @@ import { Api_Services} from './api.services';
 export class ApiService{
   constructor(private _api:Api_Services){
   }
+  private subject = new Subject();
+
   register(payload:any){
     return this._api.postTypeRequest('/adminregister',{
       username:payload.username,

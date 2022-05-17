@@ -17,7 +17,7 @@ export class ListComponent implements OnInit {
   field = '';
   order = -1;
   skip = 0;
-  limit = 5;
+  limit = 1;
   filter = 'All';
   status = 1;
   overallcount = 0;
@@ -41,16 +41,15 @@ export class ListComponent implements OnInit {
 
   };
 
-  searchtext(e:any){
-    console.log('e',e)
+  searchtext(e:string){
     this.search=e;
-
+    this.ngOnInit();
   }
-
- 
-
-  paginate(val: any) {
-    console.log('val--->', val)
+  selectFilter(e:string){
+    this.filter=e;
+  }
+  pageChanged(e:any){
+    console.log('page',e)
   }
   getallproductList(data: any): void {
     this._api.getallproduct(data).subscribe({
