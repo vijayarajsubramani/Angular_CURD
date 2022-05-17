@@ -14,7 +14,7 @@
       <div class="col-4">
         <div class="form-group">
           <label for="exampleInputEmail1">Filter Search</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Search">
+          <input type="text" class="form-control" id="search" name="search" aria-describedby="emailHelp" [(ngModel)]="search" placeholder="Search" (ngModelChange)="searchtext($event)">
         </div>
       </div>
     </div>

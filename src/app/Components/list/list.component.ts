@@ -41,6 +41,12 @@ export class ListComponent implements OnInit {
 
   };
 
+  searchtext(e:any){
+    console.log('e',e)
+    this.search=e;
+
+  }
+
  
 
   paginate(val: any) {

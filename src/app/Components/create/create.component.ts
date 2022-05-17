@@ -52,12 +52,6 @@ export class CreateComponent implements OnInit {
 
     }
   }
-  getId() {
-    
-
-  }
-
-
   mainform() {
     this.addproductForm = this.fb.group({
       name: ['', [Validators.required]],
