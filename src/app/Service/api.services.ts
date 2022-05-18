@@ -4,32 +4,17 @@ import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
-  })
+})
 
-  export class Api_Services{
-      private baseurl='http://localhost:8000/api';
+export class Api_Services {
+    public baseurl = 'http://localhost:8000';
 
-      constructor(private _http:HttpClient){}
+    constructor(private _http: HttpClient) { }
 
-      getTypeRequest(url:string){
-          return this._http.get(`${this.baseurl}${url}`).pipe(
-              map((res=>{
-                  return res
-              }))
-          )
-      }
-      postTypeRequest(url:string,payload:any){
-          return this._http.post(`${this.baseurl}${url}`,payload).pipe(
-              map((res)=>{
-                  return res
-              })
-          )
-      }
-      putTypeRequest(url:string,payload:any){
-          return this._http.put(`${this.baseurl}${url}`,payload).pipe(
-              map((res)=>{
-                  return res
-              })
-          )
-      }
-  }
+    getTypeRequest(url: string) {
+        return this._http.get(`${this.baseurl}${url}`).pipe(map((res => res)))
+    }
+    postTypeRequest(url: string, payload: any) {
+        return this._http.post(`${this.baseurl}${url}`, payload).pipe(map((res) => res))
+    }
+}

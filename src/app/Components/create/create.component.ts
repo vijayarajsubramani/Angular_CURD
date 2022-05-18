@@ -2,13 +2,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, NgZone, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/Service/api';
-const CheckValue = (e = "") => {
-  if (String(e).length > 0 && String(e) !== String(undefined) && String(e) !== String(null)) {
-      return true;
-  } else {
-      return false;
-  }
-};
+import { Api_Services } from 'src/app/Service/api.services';
 
 @Component({
   selector: 'app-create',
@@ -20,11 +14,13 @@ const CheckValue = (e = "") => {
 export class CreateComponent implements OnInit {
 
   submitted = false;
-  addproductForm!: FormGroup;
+  addproductForm: any = FormGroup;
   product = [];
   imagefile: any;
-  preview = '';
-  id = ''
+  preview: any;
+  id = '';
+  productimageview = '';
+  base_url = this._base_url.baseurl
 
   constructor(
     public ref: ChangeDetectorRef,
@@ -33,33 +29,37 @@ export class CreateComponent implements OnInit {
     private _router: Router,
     private _api: ApiService,
     public router: ActivatedRoute,
+    public _base_url: Api_Services
   ) {
     this.mainform();
     const navigation = this._router.getCurrentNavigation();
-    const state = navigation?.extras.state as {id: string}
+    const state = navigation?.extras.state as { id: any }
     if (state) {
-      this.id = state.id
-    }
+      this.id = state.id._id,
+        this.productimageview = state.id.productimage;
 
+    }
   }
 
   ngOnInit(): void {
     if (this.id) {
-      this._api.getSingleProduct(this.id).subscribe({
+      const data: any = {
+        _id: this.id
+      }
+      this._api.getSingleProduct(data).subscribe({
         next: (res: any) => {
-          console.log('res', res)
-          this.addproductForm.patchValue({
-            name: res.response.name,
-            description: res.response.description,
-            price: res.response.price,
-            productimage: res.response.productimage,
-            quantity: res.response.quantity
-          })
+          if (res.status === 1) {
+            this.addproductForm.patchValue({
+              name: res.response.name,
+              description: res.response.description,
+              price: res.response.price,
+              quantity: res.response.quantity,
+              productimage: res.response.productimage
+            });
+          }
         }
       })
-
     }
-
   }
   mainform() {
     this.addproductForm = this.fb.group({
@@ -67,17 +67,27 @@ export class CreateComponent implements OnInit {
       price: ['', [Validators.required]],
       description: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
-      productimage: [null]
+      productimage: ['', [Validators.required]]
     })
   }
   get myform() {
-    return this.addproductForm?.controls
+    return this.addproductForm?.controls;
   }
   onSelectedFile(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.addproductForm.get('productimage')?.setValue(file);
+      var image_valid = ['image/jpg', 'image/jpeg', 'image/png', 'image/JPG', 'image/JPEG', 'image/PNG'];
+      if (image_valid.indexOf(file.type) == -1) {
+        this.addproductForm.controls['productimage'].setValue('')
+        return
+      }
       this.imagefile = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.preview = reader.result as string;
+        this.addproductForm.patchValue({ productimage: reader.result })
+      }
+      reader.readAsDataURL(file);
     }
   }
   onSubmit() {
@@ -86,27 +96,19 @@ export class CreateComponent implements OnInit {
       alert('product Must all fied Required')
       return false;
     } else {
-      let params: any = {};
+      var formdata: any = new FormData();
       if (this.id) {
-        params.id = this.id;
-        params.name = this.addproductForm.value.name;
-        params.description = this.addproductForm.value.description;
-        params.price = this.addproductForm.value.price;
-        params.productimage = this.imagefile;
-        params.quantity = this.addproductForm.value.quantity;
-
-      } else {
-        params.name = this.addproductForm.value.name;
-        params.description = this.addproductForm.value.description;
-        params.price = this.addproductForm.value.price;
-        params.productimage = this.imagefile;
-        params.quantity = this.addproductForm.value.quantity;
-        
+        formdata.append('id', this.id)
       }
-      return this._api.createproduct(params).subscribe({
+      formdata.append('name', this.addproductForm.value.name)
+      formdata.append('description', this.addproductForm.value.description)
+      formdata.append('price', this.addproductForm.value.price)
+      formdata.append('quantity', this.addproductForm.value.quantity)
+      formdata.append('productimage', this.imagefile)
+      return this._api.createproduct(formdata).subscribe({
         next: (res: any) => {
           if (res.status === 1) {
-            this.ngZone.run(() => this._router.navigateByUrl('/lists'))
+            this.ngZone.run(() => this._router.navigate(['/lists']))
             res.response.data = this.product;
           } else {
             console.log('error')

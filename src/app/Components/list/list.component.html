@@ -1,21 +1,41 @@
 <div class="container mt-3 vh-100">
   <div class="'container" style="margin-bottom: 10px;">
     <div class="row">
-      <div class="col-4">
-        <label for="exampleInputEmail1">Select</label>
+      <div class="col-3">
+        <label >Choose Filter</label>
         <select class="form-select" aria-label="Default select example" name="filter" [(ngModel)]="filter" (ngModelChange)="selectFilter($event)">
-          <option value="All"></option>
+          <option value="All">All</option>
           <option value="name">Name</option>
           <option value="description">Description</option>
           <option value="price">Price</option>
         </select>
   
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <div class="form-group">
-          <label for="exampleInputEmail1">Filter Search</label>
+          <label >Filter Search</label>
           <input type="text" class="form-control" id="search" name="search" aria-describedby="emailHelp" [(ngModel)]="search" placeholder="Search" (ngModelChange)="searchtext($event)">
         </div>
+      </div>
+      <div class="col-3">
+        <label >From Date</label>
+        <input type="text"
+        name="'from_date"
+        [(ngModel)]="from_date"
+        placeholder="From Date"
+        (ngModelChange)="handeleFrom_date($event)"
+        class="form-control"
+        bsDatepicker>
+      </div>
+      <div class="col-3">
+        <label >To Date</label>
+        <input type="text"
+        name="to_date"
+        [(ngModel)]="to_date"
+        placeholder="To Date"
+        (ngModelChange)="handeleTo_date($event)"
+        class="form-control"
+        bsDatepicker>
       </div>
     </div>
   </div>
@@ -26,6 +46,7 @@
         <th>Name</th>
         <th>Description</th>
         <th>Price</th>
+        <th>Quantity</th>
         <th>Status</th>
         <th>Actions</th>
       </tr>
@@ -34,7 +55,7 @@
       <tr *ngFor="let proList of product">
         <td>
           <div class="d-flex align-items-center">
-            <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px"
+            <img src="{{base_url}}/uploads/{{proList.productimage}}" alt="" style="width: 45px; height: 45px"
               class="rounded-circle" />
             <div class="ms-3">
               <p class="fw-bold mb-1">{{proList.name}}</p>
@@ -48,10 +69,13 @@
           <p class="text-muted mb-0">{{proList.price}}</p>
         </td>
         <td>
-          <p class="text-muted mb-0">{{proList.status}}</p>
+          <p class="text-muted mb-0">{{proList.quantity}}</p>
         </td>
         <td>
-          <button type="button" class="btn btn-link btn-sm btn-rounded"  [routerLink]="['/add']" [state]="{id:proList._id}">
+          <p class="text-muted mb-0">{{proList.status===1 ? 'Active':'Inactive'}}</p>
+        </td>
+        <td>
+          <button type="button" class="btn btn-link btn-sm btn-rounded"  [routerLink]="['/add']" [state]="{id:proList}">
             Edit
           </button>
           <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="deleteProduct(proList._id)">
@@ -61,12 +85,21 @@
       </tr>
     </tbody>
   </table>
-  <div class="float-end">
     <div class="row">
-      <div class="col-xs-12 col-12">
-        <pagination [totalItems]="overallcount" [(ngModel)]="page" [maxSize]="maxSize" (pageChanged)="setPage($event)"></pagination>
+      <div class="col-6 ">
+        <select class="form-select w-25 mt-2" aria-label="Default select example" name="limit" [(ngModel)]="limit" (ngModelChange)="pagelimit($event)">
+          <option value="10">Select Limit</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+  
+      </div>
+      <div class="col-6 mt-2">
+        <div class="float-end">
+          <pagination [totalItems]="overallcount" [(ngModel)]="page" [maxSize]="maxSize" (pageChanged)="setPage($event)"></pagination>  
+        </div>
       </div>
     </div>
-  </div>
 
 </div>

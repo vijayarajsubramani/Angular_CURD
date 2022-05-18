@@ -32,7 +32,7 @@ export class SigninComponent implements OnInit {
 
   mainform() {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required]],
+      email: ['', [Validators.required]],
       password: ['', [Validators.required]],
     })
   }
@@ -46,10 +46,10 @@ export class SigninComponent implements OnInit {
       return false;
     } else {
       return this._api.login(this.loginForm.value).subscribe({
-          next: (res) => {
+          next: (res:any) => {
             if(res.status===1){
               this._token.setToken(res.response.auth_token);
-              this.ngZone.run(() => this._router.navigateByUrl('/add'))
+              this.ngZone.run(() => this._router.navigateByUrl('/lists'))
             }else{
               this.ngZone.run(() => this._router.navigateByUrl('/'))
             }

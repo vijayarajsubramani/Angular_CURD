@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,7 +35,9 @@ import { PaginationComponent } from './Components/pagination/pagination.componen
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
-    PaginationModule.forRoot() 
+    BrowserAnimationsModule,
+    PaginationModule.forRoot(),
+    BsDatepickerModule
    ],
   providers: [authInterceptorProviders,AuthGuardService],
   bootstrap: [AppComponent]

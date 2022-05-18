@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/Service/api';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { Api_Services } from 'src/app/Service/api.services';
 
 
 
@@ -13,7 +14,7 @@ export class ListComponent implements OnInit {
 
   product: any = [];
   page = 1;
-  search = '';
+  search :any;
   from_date = '';
   to_date = '';
   field = '';
@@ -24,9 +25,10 @@ export class ListComponent implements OnInit {
   status = 1;
   overallcount = 1;
   maxSize=5;
+  base_url=this.baseurl.baseurl
  
 
-  constructor(private _api: ApiService) {
+  constructor(private _api: ApiService,public baseurl:Api_Services) {
   }
 
   ngOnInit(): void {
@@ -42,10 +44,9 @@ export class ListComponent implements OnInit {
       status: this.status
     }
     this.getallproductList(data);
-
   };
 
-  searchtext(e:string){
+  searchtext(e:any){
     this.search=e;
     this.ngOnInit();
   }
@@ -56,14 +57,23 @@ export class ListComponent implements OnInit {
     this.skip= pageNo.page*this.limit-this.limit;
     this.ngOnInit();
   }
+  handeleFrom_date(e:string){
+    this.from_date=e
+  }
+  handeleTo_date(e:string){
+    this.to_date=e;
+    this.ngOnInit();
+  }
+  pagelimit(pageNo:number):void{
+    this.limit=pageNo;
+    this.ngOnInit();
+  }
   getallproductList(data: any): void {
     this._api.getallproduct(data).subscribe({
       next: (res: any) => {
         if (res.status === 1) {
           this.product = res.response.result;
           this.overallcount = res.response.overallcount;
-          console.log("count", this.overallcount)
-
         } else {
           alert("Some error")
         }

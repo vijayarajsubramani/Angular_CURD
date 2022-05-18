@@ -48,10 +48,12 @@ export class RegisterComponent implements OnInit {
     } else {
       console.log('check else')
       return this._api.register(this.registerForm.value).subscribe({
-        complete: () => {
-          this.ngZone.run(() => this._router.navigateByUrl('/signin'))
+        next: (res:any) => {
+          if(res.status===1){
+            this.ngZone.run(() => this._router.navigate(['/']))
+          }
         }, error: (e) => {
-          console.log('e'), e
+          console.log('e')
         }
       })
     }
