@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/Service/api';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+
 
 
 @Component({
@@ -17,10 +19,12 @@ export class ListComponent implements OnInit {
   field = '';
   order = -1;
   skip = 0;
-  limit = 1;
+  limit = 10;
   filter = 'All';
   status = 1;
-  overallcount = 0;
+  overallcount = 1;
+  maxSize=5;
+ 
 
   constructor(private _api: ApiService) {
   }
@@ -48,8 +52,9 @@ export class ListComponent implements OnInit {
   selectFilter(e:string){
     this.filter=e;
   }
-  pageChanged(e:any){
-    console.log('page',e)
+  setPage(pageNo: PageChangedEvent): void {
+    this.skip= pageNo.page*this.limit-this.limit;
+    this.ngOnInit();
   }
   getallproductList(data: any): void {
     this._api.getallproduct(data).subscribe({

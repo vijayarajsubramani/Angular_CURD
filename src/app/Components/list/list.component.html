@@ -61,10 +61,10 @@
       </tr>
     </tbody>
   </table>
-  <div>
+  <div class="float-end">
     <div class="row">
       <div class="col-xs-12 col-12">
-        <pagination [totalItems]="overallcount" [(ngModel)]="page" (pageChanged)="pageChanged($event)"></pagination>
+        <pagination [totalItems]="overallcount" [(ngModel)]="page" [maxSize]="maxSize" (pageChanged)="setPage($event)"></pagination>
       </div>
     </div>
   </div>

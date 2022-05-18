@@ -59,6 +59,7 @@ export class CreateComponent implements OnInit {
       })
 
     }
+
   }
   mainform() {
     this.addproductForm = this.fb.group({
@@ -100,6 +101,7 @@ export class CreateComponent implements OnInit {
         params.price = this.addproductForm.value.price;
         params.productimage = this.imagefile;
         params.quantity = this.addproductForm.value.quantity;
+        
       }
       return this._api.createproduct(params).subscribe({
         next: (res: any) => {
