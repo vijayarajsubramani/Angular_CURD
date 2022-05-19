@@ -16,6 +16,11 @@ export class HeaderComponent implements OnInit {
     if(this._token.getToken()) this.isLoggedin=true;
     else this.isLoggedin=false;
   }
+  logout(){
+    this._token.clearStorage();
+    this.ngOnInit();
+    window.location.reload()
+  }
 
 
 

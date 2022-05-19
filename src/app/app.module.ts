@@ -17,7 +17,6 @@ import { SigninComponent } from './Components/signin/signin.component';
 import { HeaderComponent } from './Components/header/header.component';
 import { authInterceptorProviders } from './Service/interceptor';
 import { AuthGuardService } from './Service/authguard';
-import { PaginationComponent } from './Components/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +26,6 @@ import { PaginationComponent } from './Components/pagination/pagination.componen
     RegisterComponent,
     SigninComponent,
     HeaderComponent,
-    PaginationComponent,
   ],
   imports: [
     BrowserModule,

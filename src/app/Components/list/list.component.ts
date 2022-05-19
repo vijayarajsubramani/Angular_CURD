@@ -74,6 +74,8 @@ export class ListComponent implements OnInit {
         if (res.status === 1) {
           this.product = res.response.result;
           this.overallcount = res.response.overallcount;
+          // window.location.reload();
+
         } else {
           alert("Some error")
         }
